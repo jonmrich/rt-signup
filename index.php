@@ -21,11 +21,11 @@ if (get_magic_quotes_gpc()) {
 $form_data = json_decode($unescaped_post_data['data_json']);
 var_dump($form_data);
 // If your form data has an 'Email Address' field, here's how you extract it:     
-$email_address = $form_data->email_address[0];
+$email_address = $form_data->email[0];
 $password = $form_data->password[0];
 $password_confirm = $form_data->password_confirm[0];
 $username = $email_address;
-// Grab the remaining page data...                                                
+                                             
 
 $headers   = array();
 $headers[] = 'Accept: application/json';
