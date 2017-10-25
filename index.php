@@ -22,10 +22,38 @@ $form_data = json_decode($unescaped_post_data['data_json']);
 var_dump($form_data);
 // If your form data has an 'Email Address' field, here's how you extract it:     
 $email_address = $form_data->email_address[0];
+$password = $form_data->password[0];
+$password_confirm = $form_data->password_confirm[0];
+$username = $email_address;
 // Grab the remaining page data...                                                
-$page_id = $_POST['page_id'];
-$page_url = $_POST['page_url'];
-$variant = $_POST['variant'];
-                                           
+
+$headers   = array();
+$headers[] = 'Accept: application/json';
+$headers[] = 'Content-Type: application/json';
+
+$objectArray = array(
+    'email'              => $email_address,
+    'username'            => $email_address,
+    'password'                   => $password,
+    'password_confirmation'         => $password_confirm,
+);
+$data3     = array('user' => $objectArray);
+$data_json = json_encode($data3);
+
+curl_setopt_array($curl, array(
+    CURLOPT_URL => 'https://roadtrippers.com/api/v1/users',
+    CURLOPT_HTTP_VERSION   => CURL_HTTP_VERSION_1_1,
+    CURLOPT_CUSTOMREQUEST  => 'POST',
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_HTTPHEADER     => $headers,
+    CURLOPT_POSTFIELDS     => $data_json,
+));
+
+$response = curl_exec($curl);
+
+$err      = curl_error($curl);
+
+curl_close($curl);
+die();                                           
 
 ?>
